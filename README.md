@@ -57,4 +57,17 @@ git branch --list "*/foo"
 
 git branch --list "feature/*"
 
-## Pull Request Template
+## Pull Request Guidelines
+When submitting a Pull Request, please follow these guidelines to ensure a smooth review process:
+
+1. **Title**: Provide a clear and concise summary of the changes.
+2. **Description**: Explain what changes were made and why.
+3. **Related Issue**: Reference any related issues or tickets (e.g., "Closes #issue_number").
+4. **Changes Made**: List the main changes and updates.
+5. **How to Test**: Include instructions for testing the changes.
+6. **Screenshots / Logs**: Add any relevant screenshots or logs.
+7. **Additional Notes**: Provide any extra context or information.
+8. **Checklist**: Verify that your PR meets all checklist items before submission.
+9. **Reviewers**: Tag appropriate team members for review.
+
+By following these guidelines, you help ensure that your Pull Request is clear, actionable, and easy to review.
