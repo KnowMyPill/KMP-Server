@@ -1,2 +1,4 @@
-package com.parkour.kmp.medication;public class Medication {
+package com.parkour.kmp.medication.domain;
+
+public class Medication {
 }

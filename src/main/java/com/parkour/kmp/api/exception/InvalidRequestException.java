@@ -1,8 +1,8 @@
 package com.parkour.kmp.api.exception;
 
-public class InvalidRequstException extends Exception {
+public class InvalidRequestException extends Exception {
 
-    public InvalidRequstException(String message) {
+    public InvalidRequestException(String message) {
         super(message);
     }
 }
