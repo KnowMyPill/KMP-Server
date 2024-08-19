@@ -1,0 +1,8 @@
+spring.application.name=kmp
+spring.datasource.url=jdbc:postgresql://localhost:5432/mydatabase
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.h2.console.enabled=true
+
