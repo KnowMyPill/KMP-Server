@@ -1,4 +1,4 @@
-package com.parkour.kmp.api;
+package com.parkour.kmp.api.invoker;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

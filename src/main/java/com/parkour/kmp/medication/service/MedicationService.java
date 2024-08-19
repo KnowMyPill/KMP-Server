@@ -1,9 +1,6 @@
 package com.parkour.kmp.medication.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parkour.kmp.api.MedicationApiInvoker;
-import com.parkour.kmp.medication.domain.Medication;
-import com.parkour.kmp.medication.payload.response.MedicationApiResponse;
+import com.parkour.kmp.api.invoker.MedicationApiInvoker;
 import com.parkour.kmp.medication.payload.response.MedicationResponse;
 import com.parkour.kmp.medication.repository.MedicationRepository;
 import lombok.RequiredArgsConstructor;

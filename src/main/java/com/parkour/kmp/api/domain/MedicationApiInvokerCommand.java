@@ -1,4 +1,4 @@
-package com.parkour.kmp.api;
+package com.parkour.kmp.api.domain;
 
 import lombok.Getter;
 
