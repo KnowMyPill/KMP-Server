@@ -1,15 +1,14 @@
 package com.parkour.kmp.medication.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
 
+@Entity
 @Getter
+@Table(name = "medications")
 public class Medication {
 
     @Id
