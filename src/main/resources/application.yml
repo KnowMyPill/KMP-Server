@@ -1,8 +1,23 @@
-spring.application.name=kmp
-spring.datasource.url=jdbc:postgresql://localhost:5432/mydatabase
-spring.datasource.username=postgres
-spring.datasource.password=postgres
-
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.h2.console.enabled=true
-
+server:
+  address: 0.0.0.0
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST}/${DB_NAME}
+    username: ${DB_USER_NAME}
+    password: ${DB_PASSWORD}
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 55MB
+  jpa:
+    hibernate:
+      ddl-auto: update
+security:
+  jwt:
+    token:
+      secret-key: ${JWT_SECRET_KEY}
+      expire-length: ${EXPIRE_LENGTH_IN_MILLISECONDS}
+file:
+  file-dir: ${FILE_DIR}
