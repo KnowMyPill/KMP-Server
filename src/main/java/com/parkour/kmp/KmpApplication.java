@@ -12,5 +12,4 @@ public class KmpApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KmpApplication.class, args);
 	}
-
 }

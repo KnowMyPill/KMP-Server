@@ -8,16 +8,14 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class MedicationApiInvokerFactory {
-    private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    public MedicationApiInvokerFactory(RestTemplateBuilder restTemplateBuilder, ObjectMapper objectMapper) {
-        this.restTemplate = restTemplateBuilder.build();
+    public MedicationApiInvokerFactory(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
     public MedicationApiInvoker createMedicationApiInvoker(MedicationApiInvokerCommand command) {
-        return new MedicationApiInvoker(restTemplate, objectMapper, command);
+        return new MedicationApiInvoker(objectMapper, command);
     }
 
 }

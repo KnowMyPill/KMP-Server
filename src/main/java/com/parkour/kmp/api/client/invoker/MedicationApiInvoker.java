@@ -4,33 +4,40 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parkour.kmp.api.client.domain.MedicationApiInvokerCommand;
 import com.parkour.kmp.api.client.exception.InvalidRequestException;
+import com.parkour.kmp.api.client.payload.response.ApiResponse;
 import com.parkour.kmp.api.client.payload.response.MedCodeApiResponse;
 import com.parkour.kmp.api.client.payload.response.MedCodeSummaryResponse;
 import com.parkour.kmp.api.client.payload.response.MedicationApiResponse;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
+import java.io.StringReader;
+import java.net.URISyntaxException;
+
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.http.HttpHeaders;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
 public class MedicationApiInvoker {
 
-    private static final String apiKey = System.getenv("KMP_APP_APIKEY");
-
-    private final RestTemplate restTemplate;
+    private static final String apiKey = System.getenv("KMP_APP_API_KEY");
     private final ObjectMapper mapper;
 
-    private final String url, path;
+    private final String url;
+    private final String path;
     private final HttpMethod method;
 
-    public MedicationApiInvoker(RestTemplate restTemplate, ObjectMapper mapper, MedicationApiInvokerCommand command) {
-        this.restTemplate = restTemplate;
+    public MedicationApiInvoker(ObjectMapper mapper, MedicationApiInvokerCommand command) {
         this.mapper = mapper;
         this.url = command.getUrl();
         this.path = command.getPath();
@@ -43,27 +50,27 @@ public class MedicationApiInvoker {
         int pageSize = 100;
 
         while (true) {
-            URI uri = UriComponentsBuilder.fromHttpUrl(url)
-                    .path(path)
-                    .queryParam("serviceKey", apiKey)
-                    .queryParam("page", currentPage)
-                    .queryParam("perPage", pageSize)
-                    .encode()
-                    .build()
-                    .toUri();
 
-            RequestEntity<Void> requestEntity = buildRequest(method, uri).build();
-            ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
 
-            if (!responseEntity.getStatusCode().is2xxSuccessful()) {
-                throw new InvalidRequestException("Failed to fetch med code data: " + responseEntity.getBody());
-            }
+            URI uri = URI.create(url + path + "?serviceKey=" + apiKey + "&page=" + currentPage + "&perPage=" + pageSize + "&returnType=XML");
 
-            String responseBody = responseEntity.getBody();
+            WebClient client = WebClient.builder().baseUrl(url).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
+
+            String result = client.get()
+                    .uri(uri)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+            System.out.println(result);
+
+
             try {
-
-                Map<String, Object> responseMap = mapper.readValue(responseBody, Map.class);
+                Map<String, Object> responseMap = mapper.readValue(result, Map.class);
                 List<Map<String, Object>> data = (List<Map<String, Object>>) responseMap.get("data");
+
+                if (data == null) {
+                    throw new InvalidRequestException("No 'data' field in response.");
+                }
 
                 for (Map<String, Object> itemMap : data) {
                     MedCodeApiResponse item = mapper.convertValue(itemMap, MedCodeApiResponse.class);
@@ -75,38 +82,52 @@ public class MedicationApiInvoker {
                 }
                 currentPage++;
             } catch (JsonProcessingException e) {
-                throw new InvalidRequestException("Error processing JSON response: " + e);
+                throw new InvalidRequestException("Error processing JSON response: " + e.getMessage());
             }
         }
         return new MedCodeSummaryResponse(pageSize, responses.size(), responses.size(), responses);
     }
 
-    public MedicationApiResponse fetchMedicationData(String query) throws InvalidRequestException, JsonProcessingException {
-        URI uri = UriComponentsBuilder.fromHttpUrl(url)
-                .path(path)
-                .queryParam("serviceKey", apiKey)
-                .queryParam("itemSeq", query)
-                .encode()
-                .build()
-                .toUri();
+    public MedicationApiResponse fetchMedicationData(String query) throws InvalidRequestException, URISyntaxException {
 
-        RequestEntity<Void> requestEntity = buildRequest(method, uri).build();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
-        if (!responseEntity.getStatusCode().is2xxSuccessful()) {
-            throw new InvalidRequestException("Failed to fetch medication data: " + responseEntity.getBody());
+
+        URI uri = URI.create(url + path + "?serviceKey=" + apiKey + "&itemSeq=" + query);
+
+        WebClient client = WebClient.builder().baseUrl(url).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
+
+        String result = client.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        MedicationApiResponse response = null;
+        try {
+
+            JAXBContext jaxbContext = JAXBContext.newInstance(ApiResponse.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+            // Convert XML to ApiResponse object
+            ApiResponse apiResponse = (ApiResponse) unmarshaller.unmarshal(new StringReader(result));
+
+            // Check for null and process items
+            if (apiResponse.getBody() != null && apiResponse.getBody().getItemsWrapper() != null) {
+                List<MedicationApiResponse> medicationList = apiResponse.getBody().getItemsWrapper().getItem();
+                response = medicationList.get(0);
+            } else {
+                System.out.println("No items found.");
+            }
+        } catch (JAXBException e) {
+            e.printStackTrace();
         }
-        MedicationApiResponse response =  mapper.readValue(responseEntity.getBody(), MedicationApiResponse.class);
-        System.out.println(response.toString()); // TODO: remove in production
+
+
+        /*try {
+            return mapper.readValue(responseEntity.getBody(), MedicationApiResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new InvalidRequestException("Error processing JSON response: " + e.getMessage());
+        }*/
         return response;
     }
 
-    private RequestEntity.HeadersBuilder<?> buildRequest(HttpMethod method, URI uri) throws InvalidRequestException {
-        if (method.equals(HttpMethod.GET)) {
-            return RequestEntity.get(uri);
-        } else if (method.equals(HttpMethod.POST)) {
-            return RequestEntity.post(uri);
-        } else {
-            throw new InvalidRequestException("Invalid HTTP method: " + method);
-        }
-    }
+
 }
