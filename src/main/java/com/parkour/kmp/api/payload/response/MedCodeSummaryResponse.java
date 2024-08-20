@@ -2,13 +2,22 @@ package com.parkour.kmp.api.payload.response;
 
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-public class MedCodeResponse {
-
-    private Long perPage;
-    private Long totalCount;
-    private Long currentCount;
+public class MedCodeSummaryResponse {
+    private int perPage;
+    private int totalCount;
+    private int currentCount;
+    private LocalDateTime fetchedAt;
     private List<MedCodeApiResponse> data;
+
+    public MedCodeSummaryResponse(int perPage, int totalCount, int currentCount, List<MedCodeApiResponse> data) {
+        this.perPage = perPage;
+        this.totalCount = totalCount;
+        this.currentCount = currentCount;
+        this.fetchedAt = LocalDateTime.now();
+        this.data = data;
+    }
 }
