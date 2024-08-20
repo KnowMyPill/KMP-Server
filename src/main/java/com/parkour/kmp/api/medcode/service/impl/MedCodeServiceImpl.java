@@ -1,6 +1,6 @@
 package com.parkour.kmp.api.medcode.service.impl;
 
-import com.parkour.kmp.api.client.payload.response.MedCodeSummaryResponse;
+import com.parkour.kmp.api.client.payload.response.medcode.MedCodeSummaryResponse;
 import com.parkour.kmp.api.medcode.repository.MedCodeRepository;
 import com.parkour.kmp.api.medcode.service.MedCodeService;
 import jakarta.transaction.Transactional;

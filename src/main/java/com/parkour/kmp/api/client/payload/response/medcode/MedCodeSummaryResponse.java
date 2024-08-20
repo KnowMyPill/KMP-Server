@@ -1,4 +1,4 @@
-package com.parkour.kmp.api.client.payload.response;
+package com.parkour.kmp.api.client.payload.response.medcode;
 
 import com.parkour.kmp.api.client.payload.response.medcode.MedCodeApiResponse;
 import lombok.Getter;

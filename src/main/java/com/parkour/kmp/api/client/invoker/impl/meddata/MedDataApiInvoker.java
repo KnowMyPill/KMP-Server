@@ -1,11 +1,12 @@
-package com.parkour.kmp.api.client.invoker.impl;
+package com.parkour.kmp.api.client.invoker.impl.meddata;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parkour.kmp.api.client.domain.ApiInvokerCmd;
 
 import com.parkour.kmp.api.client.invoker.ApiInvoker;
-import com.parkour.kmp.api.client.payload.response.MedDataApiResponse;
+import com.parkour.kmp.api.client.payload.response.meddata.MedItemApiResponse;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,17 +18,16 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Component
-public class MedApiInvoker implements ApiInvoker {
+public class MedDataApiInvoker implements ApiInvoker {
 
     private static final String apiKey = System.getenv("KMP_APP_API_KEY");
     private static final String url = ApiInvokerCmd.GET_MED_FROM_CODE.getUrl();
     private static final String path = ApiInvokerCmd.GET_MED_FROM_CODE.getPath();
-
-    private final ObjectMapper mapper;
-    private final WebClient client;
+    private final WebClient client = WebClient.builder().build();
 
 
-    public MedDataApiResponse fetchMedicationData(String query) {
+    @Override
+    public MedItemApiResponse fetchMedicationData(String query) {
 
         URI uri = URI.create(url + path + "?serviceKey=" + apiKey + "&itemSeq=" + query + "&type=json");
 
@@ -36,32 +36,26 @@ public class MedApiInvoker implements ApiInvoker {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        System.out.println(result);
-        MedDataApiResponse response = null;
-        try {
-            Map<String, Object> resultMap = mapper.readValue(result, Map.class);
 
-            Map<String, Object> body = (Map<String, Object>) resultMap.get("body");
-            List<Map<String, Object>> items = (List<Map<String, Object>>) body.get("items");
-            Map<String, Object> itemData = items.get(0);
+        ObjectMapper mapper = new ObjectMapper();
+        MedItemApiResponse response = null;
+        try {
+            Map<String, Object> responseMap = mapper.readValue(result, new TypeReference<Map<String, Object>>() {});
+
+            // Extract 'body' as a Map
+            Map<String, Object> bodyMap = (Map<String, Object>) responseMap.get("body");
+
+            // Extract 'items' as a List of Maps
+            List<Map<String, Object>> items = (List<Map<String, Object>>) bodyMap.get("items");
+
+            if (!items.isEmpty()) {
+                // Convert the first item to MedItemApiResponse
+                response = mapper.convertValue(items.get(0), MedItemApiResponse.class);
+            }
         }  catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return response;
-    }
-
-    public MedDataApiResponse convertToDTO(Map<String, Object> data) {
-        MedDataApiResponse dto = new MedDataApiResponse(
-                (String) data.get("itemName"),
-                (String) data.get("descEffect"),
-                (String) data.get("descUseMethod"),
-                (String) data.get("descWarningBeforeUsage"),
-                (String) data.get("descWarning"),
-                (String) data.get("descBannedCombo"),
-                (String) data.get("descSideEffect"),
-                (String) data.get("descManageMethod")
-        );
-        return dto;
     }
 
 

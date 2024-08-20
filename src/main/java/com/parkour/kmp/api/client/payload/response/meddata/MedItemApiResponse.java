@@ -1,28 +1,32 @@
-package com.parkour.kmp.api.client.payload.response;
+package com.parkour.kmp.api.client.payload.response.meddata;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 
 @Getter
-public class MedDataApiResponse {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class MedItemApiResponse {
 
     private String itemName;
-    private String descEffect;
-    private String descUseMethod;
-    private String descWarningBeforeUsage;
-    private String descWarning;
-    private String descBannedCombo;
-    private String descSideEffect;
-    private String descManageMethod;
+    private String efcyQesitm;
+    private String useMethodQesitm;
+    private String atpnWarnQesitm;
+    private String atpnQesitm;
+    private String intrcQesitm;
+    private String seQesitm;
+    private String depositMethodQesitm;
 
-    public MedDataApiResponse(String itemName, String descEffect, String descUseMethod, String descWarningBeforeUsage, String descWarning, String descBannedCombo, String descSideEffect, String descManageMethod) {
+    public MedItemApiResponse() {
+    }
+    public MedItemApiResponse(String itemName, String efcyQesitm, String useMethodQesitm, String atpnWarnQesitm, String atpnQesitm, String intrcQesitm, String seQesitm, String depositMethodQesitm) {
         this.itemName = itemName;
-        this.descEffect = descEffect;
-        this.descUseMethod = descUseMethod;
-        this.descWarningBeforeUsage = descWarningBeforeUsage;
-        this.descWarning = descWarning;
-        this.descBannedCombo = descBannedCombo;
-        this.descSideEffect = descSideEffect;
-        this.descManageMethod = descManageMethod;
+        this.efcyQesitm = efcyQesitm;
+        this.useMethodQesitm = useMethodQesitm;
+        this.atpnWarnQesitm = atpnWarnQesitm;
+        this.atpnQesitm = atpnQesitm;
+        this.intrcQesitm = intrcQesitm;
+        this.seQesitm = seQesitm;
+        this.depositMethodQesitm = depositMethodQesitm;
     }
 
 }

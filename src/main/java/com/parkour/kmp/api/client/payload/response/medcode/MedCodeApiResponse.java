@@ -1,9 +1,11 @@
-package com.parkour.kmp.api.client.payload.response;
+package com.parkour.kmp.api.client.payload.response.medcode;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MedCodeApiResponse {
     @JsonProperty("한글상품명")
     private String itemName;
@@ -25,4 +27,7 @@ public class MedCodeApiResponse {
 
     @JsonProperty("ATC코드")
     private String atcCode;
+
+    @JsonProperty("비고")
+    private String note;
 }
