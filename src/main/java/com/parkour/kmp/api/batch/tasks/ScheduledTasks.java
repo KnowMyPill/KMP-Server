@@ -2,8 +2,7 @@ package com.parkour.kmp.api.batch.tasks;
 
 import com.parkour.kmp.api.client.domain.ApiInvokerCmd;
 import com.parkour.kmp.api.client.factory.ApiInvokerFactory;
-import com.parkour.kmp.api.client.factory.impl.MedApiInvokerFactoryImpl;
-import com.parkour.kmp.api.client.payload.response.MedCodeSummaryResponse;
+import com.parkour.kmp.api.client.payload.response.medcode.MedCodeSummaryResponse;
 import com.parkour.kmp.api.medcode.service.MedCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
