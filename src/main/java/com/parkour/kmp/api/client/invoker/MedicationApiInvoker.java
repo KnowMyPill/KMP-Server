@@ -4,23 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parkour.kmp.api.client.domain.MedicationApiInvokerCommand;
 import com.parkour.kmp.api.client.exception.InvalidRequestException;
-import com.parkour.kmp.api.client.payload.response.ApiResponse;
 import com.parkour.kmp.api.client.payload.response.MedCodeApiResponse;
 import com.parkour.kmp.api.client.payload.response.MedCodeSummaryResponse;
 import com.parkour.kmp.api.client.payload.response.MedicationApiResponse;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Unmarshaller;
-import java.io.StringReader;
-import java.net.URISyntaxException;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.HttpHeaders;
 
 import java.net.URI;
@@ -52,7 +42,7 @@ public class MedicationApiInvoker {
         while (true) {
 
 
-            URI uri = URI.create(url + path + "?serviceKey=" + apiKey + "&page=" + currentPage + "&perPage=" + pageSize + "&returnType=XML");
+            URI uri = URI.create(url + path + "?serviceKey=" + apiKey + "&page=" + currentPage + "&perPage=" + pageSize);
 
             WebClient client = WebClient.builder().baseUrl(url).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
 
@@ -66,6 +56,7 @@ public class MedicationApiInvoker {
 
             try {
                 Map<String, Object> responseMap = mapper.readValue(result, Map.class);
+                System.out.println(responseMap);
                 List<Map<String, Object>> data = (List<Map<String, Object>>) responseMap.get("data");
 
                 if (data == null) {
@@ -88,10 +79,9 @@ public class MedicationApiInvoker {
         return new MedCodeSummaryResponse(pageSize, responses.size(), responses.size(), responses);
     }
 
-    public MedicationApiResponse fetchMedicationData(String query) throws InvalidRequestException, URISyntaxException {
+    public MedicationApiResponse fetchMedicationData(String query) {
 
-
-        URI uri = URI.create(url + path + "?serviceKey=" + apiKey + "&itemSeq=" + query);
+        URI uri = URI.create(url + path + "?serviceKey=" + apiKey + "&itemSeq=" + query + "&type=json");
 
         WebClient client = WebClient.builder().baseUrl(url).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
 
@@ -100,33 +90,32 @@ public class MedicationApiInvoker {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
+        System.out.println(result);
         MedicationApiResponse response = null;
         try {
+            Map<String, Object> resultMap = mapper.readValue(result, Map.class);
 
-            JAXBContext jaxbContext = JAXBContext.newInstance(ApiResponse.class);
-            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-            // Convert XML to ApiResponse object
-            ApiResponse apiResponse = (ApiResponse) unmarshaller.unmarshal(new StringReader(result));
-
-            // Check for null and process items
-            if (apiResponse.getBody() != null && apiResponse.getBody().getItemsWrapper() != null) {
-                List<MedicationApiResponse> medicationList = apiResponse.getBody().getItemsWrapper().getItem();
-                response = medicationList.get(0);
-            } else {
-                System.out.println("No items found.");
-            }
-        } catch (JAXBException e) {
+            Map<String, Object> body = (Map<String, Object>) resultMap.get("body");
+            List<Map<String, Object>> items = (List<Map<String, Object>>) body.get("items");
+            Map<String, Object> itemData = items.get(0);
+        }  catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
-
-        /*try {
-            return mapper.readValue(responseEntity.getBody(), MedicationApiResponse.class);
-        } catch (JsonProcessingException e) {
-            throw new InvalidRequestException("Error processing JSON response: " + e.getMessage());
-        }*/
         return response;
+    }
+
+    public MedicationApiResponse convertToDTO(Map<String, Object> data) {
+        MedicationApiResponse dto = new MedicationApiResponse(
+                (String) data.get("itemName"),
+                (String) data.get("descEffect"),
+                (String) data.get("descUseMethod"),
+                (String) data.get("descWarningBeforeUsage"),
+                (String) data.get("descWarning"),
+                (String) data.get("descBannedCombo"),
+                (String) data.get("descSideEffect"),
+                (String) data.get("descManageMethod")
+        );
+        return dto;
     }
 
 

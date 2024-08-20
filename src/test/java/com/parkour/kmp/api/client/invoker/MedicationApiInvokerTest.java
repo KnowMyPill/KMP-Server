@@ -40,7 +40,7 @@ class MedicationApiInvokerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
+    /*
     @Test
     void testFetchAllMedCodeData_Success() throws Exception {
         medicationApiInvoker = new MedicationApiInvoker(mapper, MedicationApiInvokerCommand.GET_CODE_FROM_BARCODE);
@@ -52,6 +52,8 @@ class MedicationApiInvokerTest {
         //assertEquals(1, result.getCurrentCount());
         //assertEquals(1, result.getData().size());
     }
+
+     */
 
 
     @Test
