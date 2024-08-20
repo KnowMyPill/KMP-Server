@@ -1,5 +1,6 @@
 package com.parkour.kmp.api.client.payload.response;
 
+import com.parkour.kmp.api.client.payload.response.medcode.MedCodeApiResponse;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
