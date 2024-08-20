@@ -1,10 +1,10 @@
-package com.parkour.kmp.medication.payload.response;
+package com.parkour.kmp.api.payload.response;
 
 public class MedicationApiResponse {
 
     private String entpName;
     private String itemName;
-    private String itemSeq;
+    private String itemSeq; // 품목기준코드
     private String efcyQesitm; // 효능
     private String useMethodQesitm; // 사용법
     private String atpnWarnQesitm; // 주의사항 경고
