@@ -1,12 +1,11 @@
 package com.parkour.kmp.api.medication.service.impl;
 
-import com.parkour.kmp.api.client.domain.MedicationApiInvokerCommand;
-import com.parkour.kmp.api.client.invoker.MedicationApiInvoker;
-import com.parkour.kmp.api.client.invoker.MedicationApiInvokerFactory;
+import com.parkour.kmp.api.client.domain.ApiInvokerCmd;
+import com.parkour.kmp.api.client.factory.ApiInvokerFactory;
 import com.parkour.kmp.api.medication.payload.response.MedicationResponse;
 import com.parkour.kmp.api.medication.repository.MedicationRepository;
 import com.parkour.kmp.api.medication.service.MedicationService;
-import com.parkour.kmp.api.client.payload.response.MedicationApiResponse;
+import com.parkour.kmp.api.client.payload.response.MedDataApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +13,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MedicationServiceImpl implements MedicationService {
     private final MedicationRepository medicationRepository;
-    private final MedicationApiInvokerFactory apiInvokerFactory;
+    private final ApiInvokerFactory apiInvokerFactory;
 
     @Override
     public MedicationResponse findMedicationByBarcode(String barcode) {
         // TODO: 바코드 값을 의약품표준코드로 맵핑한다
 
-        MedicationApiInvoker invoker = apiInvokerFactory.createMedicationApiInvoker(MedicationApiInvokerCommand.GET_MED_FROM_CODE);
+        MedDataApiResponse medDataApiResponse = null;
         try {
-            MedicationApiResponse medicationApiResponse = invoker.fetchMedicationData(barcode);
+            medDataApiResponse = apiInvokerFactory.getApiInvoker(ApiInvokerCmd.GET_MED_FROM_CODE).fetchMedicationData(barcode);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,6 +1,6 @@
 package com.parkour.kmp.api.client.payload.request;
 
-import com.parkour.kmp.api.client.domain.MedicationApiInvokerCommand;
+import com.parkour.kmp.api.client.domain.ApiInvokerCmd;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
@@ -15,11 +15,11 @@ public class ApiSearchRequest {
     private String query;
 
     @Enumerated(EnumType.STRING)
-    MedicationApiInvokerCommand command;
+    ApiInvokerCmd command;
 
     protected ApiSearchRequest() {}
 
-    public ApiSearchRequest(String query, MedicationApiInvokerCommand command) {
+    public ApiSearchRequest(String query, ApiInvokerCmd command) {
         this.query = query;
         this.command = command;
     }

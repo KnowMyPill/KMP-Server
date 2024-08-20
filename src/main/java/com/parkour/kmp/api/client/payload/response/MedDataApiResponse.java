@@ -3,7 +3,7 @@ package com.parkour.kmp.api.client.payload.response;
 import lombok.Getter;
 
 @Getter
-public class MedicationApiResponse {
+public class MedDataApiResponse {
 
     private String itemName;
     private String descEffect;
@@ -14,7 +14,7 @@ public class MedicationApiResponse {
     private String descSideEffect;
     private String descManageMethod;
 
-    public MedicationApiResponse(String itemName, String descEffect, String descUseMethod, String descWarningBeforeUsage, String descWarning, String descBannedCombo, String descSideEffect, String descManageMethod) {
+    public MedDataApiResponse(String itemName, String descEffect, String descUseMethod, String descWarningBeforeUsage, String descWarning, String descBannedCombo, String descSideEffect, String descManageMethod) {
         this.itemName = itemName;
         this.descEffect = descEffect;
         this.descUseMethod = descUseMethod;
