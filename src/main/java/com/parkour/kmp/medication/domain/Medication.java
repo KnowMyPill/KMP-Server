@@ -1,5 +1,6 @@
 package com.parkour.kmp.medication.domain;
 
+import com.parkour.kmp.common.domain.TimestampEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -9,12 +10,12 @@ import java.util.UUID;
 @Entity
 @Getter
 @Table(name = "medications")
-public class Medication {
+public class Medication extends TimestampEntity {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @Column(name = "id", columnDefinition = "VARCHAR(255)")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     // 제품명
     @Column(name = "item_name", nullable = false)
