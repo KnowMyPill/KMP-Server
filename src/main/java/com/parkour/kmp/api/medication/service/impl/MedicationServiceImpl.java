@@ -1,21 +1,22 @@
-package com.parkour.kmp.medication.service;
+package com.parkour.kmp.api.medication.service.impl;
 
-import com.parkour.kmp.api.domain.MedicationApiInvokerCommand;
-import com.parkour.kmp.api.invoker.MedicationApiInvoker;
-import com.parkour.kmp.api.invoker.MedicationApiInvokerFactory;
-import com.parkour.kmp.api.payload.response.MedCodeSummaryResponse;
-import com.parkour.kmp.api.payload.response.MedicationApiResponse;
-import com.parkour.kmp.medication.payload.response.MedicationResponse;
-import com.parkour.kmp.medication.repository.MedicationRepository;
+import com.parkour.kmp.api.client.domain.MedicationApiInvokerCommand;
+import com.parkour.kmp.api.client.invoker.MedicationApiInvoker;
+import com.parkour.kmp.api.client.invoker.MedicationApiInvokerFactory;
+import com.parkour.kmp.api.medication.payload.response.MedicationResponse;
+import com.parkour.kmp.api.medication.repository.MedicationRepository;
+import com.parkour.kmp.api.medication.service.MedicationService;
+import com.parkour.kmp.api.client.payload.response.MedicationApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MedicationService {
+public class MedicationServiceImpl implements MedicationService {
     private final MedicationRepository medicationRepository;
     private final MedicationApiInvokerFactory apiInvokerFactory;
 
+    @Override
     public MedicationResponse findMedicationByBarcode(String barcode) {
         // TODO: 바코드 값을 의약품표준코드로 맵핑한다
 
@@ -29,10 +30,14 @@ public class MedicationService {
         return new MedicationResponse("", "", "", "", "", "", "", "");
     }
 
+    @Override
     public void saveMedication(MedicationResponse medicationResponse) {
         // TODO: map MedicationResponse to Medication entity & then save to repository
         // medicationRepository.save(medicationResponse);
     }
 
-
+    @Override
+    public MedicationResponse findMedicationByItemSeq(String itemSeq) {
+        return null;
+    }
 }

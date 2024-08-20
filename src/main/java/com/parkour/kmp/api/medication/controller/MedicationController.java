@@ -1,7 +1,7 @@
 package com.parkour.kmp.api.medication.controller;
 
 import com.parkour.kmp.api.medication.payload.response.MedicationResponse;
-import com.parkour.kmp.api.medication.service.impl.MedicationServiceImpl;
+import com.parkour.kmp.api.medication.service.MedicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
