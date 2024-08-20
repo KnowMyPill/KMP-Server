@@ -1,6 +1,6 @@
-package com.parkour.kmp.medcode.domain;
+package com.parkour.kmp.api.medcode.domain;
 
-import com.parkour.kmp.common.domain.TimestampEntity;
+import com.parkour.kmp.api.common.domain.TimestampEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
