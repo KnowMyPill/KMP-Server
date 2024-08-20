@@ -1,11 +1,10 @@
-package com.parkour.kmp.medication.domain;
+package com.parkour.kmp.api.medication.domain;
 
-import com.parkour.kmp.common.domain.TimestampEntity;
+import com.parkour.kmp.api.common.domain.TimestampEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.lang.reflect.Field;
-import java.util.UUID;
 
 @Entity
 @Getter

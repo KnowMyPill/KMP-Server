@@ -1,6 +1,6 @@
-package com.parkour.kmp.medication.repository;
+package com.parkour.kmp.api.medication.repository;
 
-import com.parkour.kmp.medication.domain.Medication;
+import com.parkour.kmp.api.medication.domain.Medication;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

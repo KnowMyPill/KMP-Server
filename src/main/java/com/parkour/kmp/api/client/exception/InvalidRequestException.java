@@ -1,4 +1,4 @@
-package com.parkour.kmp.api.exception;
+package com.parkour.kmp.api.client.exception;
 
 public class InvalidRequestException extends Exception {
 

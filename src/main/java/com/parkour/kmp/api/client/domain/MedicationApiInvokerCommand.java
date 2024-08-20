@@ -1,4 +1,4 @@
-package com.parkour.kmp.api.domain;
+package com.parkour.kmp.api.client.domain;
 
 import lombok.Getter;
 import org.springframework.http.HttpMethod;

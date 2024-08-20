@@ -1,6 +1,6 @@
-package com.parkour.kmp.api.payload.request;
+package com.parkour.kmp.api.client.payload.request;
 
-import com.parkour.kmp.api.domain.MedicationApiInvokerCommand;
+import com.parkour.kmp.api.client.domain.MedicationApiInvokerCommand;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 

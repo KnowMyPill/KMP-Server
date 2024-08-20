@@ -1,7 +1,7 @@
 package com.parkour.kmp.api.invoker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parkour.kmp.api.domain.MedicationApiInvokerCommand;
+import com.parkour.kmp.api.client.domain.MedicationApiInvokerCommand;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.RestTemplate;

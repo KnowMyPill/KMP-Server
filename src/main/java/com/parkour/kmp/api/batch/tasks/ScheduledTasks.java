@@ -1,10 +1,12 @@
-package com.parkour.kmp.batch.tasks;
+package com.parkour.kmp.api.batch.tasks;
 
-import com.parkour.kmp.api.domain.MedicationApiInvokerCommand;
-import com.parkour.kmp.api.invoker.MedicationApiInvokerFactory;
-import com.parkour.kmp.api.payload.response.MedCodeSummaryResponse;
-import com.parkour.kmp.medication.service.MedicationService;
+import com.parkour.kmp.api.client.domain.MedicationApiInvokerCommand;
+import com.parkour.kmp.api.client.invoker.MedicationApiInvokerFactory;
+import com.parkour.kmp.api.client.payload.response.MedCodeSummaryResponse;
+import com.parkour.kmp.api.medcode.service.MedCodeService;
+import com.parkour.kmp.api.medcode.service.impl.MedCodeServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.parkour.kmp.medication.util;
+package com.parkour.kmp.api.medication.util;
 
 public class MedCodeMapper {
 }

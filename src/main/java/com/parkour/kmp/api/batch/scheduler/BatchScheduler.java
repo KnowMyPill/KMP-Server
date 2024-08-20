@@ -1,4 +1,4 @@
-package com.parkour.kmp.batch.scheduler;
+package com.parkour.kmp.api.batch.scheduler;
 
 public class BatchScheduler {
 }

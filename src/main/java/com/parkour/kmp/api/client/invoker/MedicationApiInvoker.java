@@ -1,17 +1,18 @@
-package com.parkour.kmp.api.invoker;
+package com.parkour.kmp.api.client.invoker;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parkour.kmp.api.domain.MedicationApiInvokerCommand;
-import com.parkour.kmp.api.exception.InvalidRequestException;
+import com.parkour.kmp.api.client.domain.MedicationApiInvokerCommand;
+import com.parkour.kmp.api.client.exception.InvalidRequestException;
+import com.parkour.kmp.api.client.payload.response.MedCodeApiResponse;
+import com.parkour.kmp.api.client.payload.response.MedCodeSummaryResponse;
+import com.parkour.kmp.api.client.payload.response.MedicationApiResponse;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.parkour.kmp.api.payload.response.MedCodeApiResponse;
-import com.parkour.kmp.api.payload.response.MedCodeSummaryResponse;
-import com.parkour.kmp.api.payload.response.MedicationApiResponse;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
