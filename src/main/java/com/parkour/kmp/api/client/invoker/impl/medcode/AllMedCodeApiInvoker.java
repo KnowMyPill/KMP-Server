@@ -69,8 +69,6 @@ public class AllMedCodeApiInvoker implements ApiInvoker {
             }
         }
 
-        System.out.println(responses.size());
-
         return new MedCodeSummaryResponse(pageSize, responses.size(), responses.size(), responses);
     }
 }
