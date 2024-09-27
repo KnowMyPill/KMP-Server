@@ -1,17 +1,11 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
 name: Java CI with Gradle
 
 on:
   push:
     branches: 
       - main
-      - medication-search
+      - feature/01-medication-search
+      - feature/02-membership
   pull_request:
     branches: [ "main" ]
 
@@ -22,6 +16,22 @@ jobs:
     permissions:
       contents: read
 
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpassword
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
@@ -30,24 +40,21 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
-    # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+    - name: Set environment variables
+      run: |
+        echo "DB_HOST=localhost" >> $GITHUB_ENV
+        echo "DB_NAME=testdb" >> $GITHUB_ENV
+        echo "DB_USER_NAME=testuser" >> $GITHUB_ENV
+        echo "DB_PASSWORD=testpassword" >> $GITHUB_ENV
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
-    #
-    # - name: Setup Gradle
-    #   uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-    #   with:
-    #     gradle-version: '8.9'
-    #
-    # - name: Build with Gradle 8.9
-    #   run: gradle build
+    - name: Run tests
+      run: ./gradlew test
 
   dependency-submission:
 
@@ -63,7 +70,5 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
-    # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
     - name: Generate and submit dependency graph
       uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
