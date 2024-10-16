@@ -2,13 +2,8 @@ package com.parkour.kmp.api.user.service.impl;
 
 import com.parkour.kmp.api.user.domain.User;
 import com.parkour.kmp.api.user.payload.request.UserSignUpRequest;
-import com.parkour.kmp.api.user.payload.request.UserUpdateRequest;
 import com.parkour.kmp.api.user.repository.UserRepository;
 import com.parkour.kmp.api.user.service.UserService;
-import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,34 +15,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User signUp(UserSignUpRequest signUpRequest) {
-        User user = createUser(signUpRequest.email(), signUpRequest.password());
+        User user = new User(signUpRequest.token());
         return userRepository.save(user);
     }
 
-
-
     @Override
-    @Transactional
-    public User updateEmail(Long userId, UserUpdateRequest updateRequest) {
-        User user = findUserById(userId);
-        user.updateEmail(updateRequest.email());
-        return userRepository.save(user);
-    }
-
-
-
-    @Override
-    public void deleteAccount(Long userId) {
-        User user = findUserById(userId);
+    public void deleteUser(String token) {
+        User user = findUserByToken(token);
         userRepository.delete(user);
     }
-
-    private User findUserById(Long userId) {
-        return userRepository.findById(userId)
+    private User findUserByToken(String token) {
+        return userRepository.findByToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
-    }
-
-    private User createUser(String email, String password) {
-        return new User(email, password);
     }
 }
