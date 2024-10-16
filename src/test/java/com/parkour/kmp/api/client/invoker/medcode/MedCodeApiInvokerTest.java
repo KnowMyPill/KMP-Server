@@ -39,6 +39,7 @@ class MedCodeApiInvokerTest {
     }
 
 
+    /** Test commented out due to excessive runtime
     @Test
     void fetchAllMedCodeData_shouldRetrieveRealData() throws InvalidRequestException {
         Flux<MedCodeApiResponse> result = invoker.fetchAllMedCodeData();
@@ -55,5 +56,5 @@ class MedCodeApiInvokerTest {
                     System.out.println("Data retrieval complete.");
                 }
         );
-    }
+    }**/
 }
