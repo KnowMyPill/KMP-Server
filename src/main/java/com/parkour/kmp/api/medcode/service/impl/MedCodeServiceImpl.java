@@ -39,6 +39,12 @@ public class MedCodeServiceImpl implements MedCodeService {
         logger.info("Completed the process to fetch and save medication codes.");
     }
 
+    @Override
+    public MedCode findMedCodeByCodeStandard(String codeStandard) throws InvalidRequestException {
+        return medCodeRepository.findByCodeStandard(codeStandard)
+                .orElseThrow(() -> new InvalidRequestException("MedCode not found for codeStandard: " + codeStandard));
+    }
+
     private Mono<Void> saveMedCodesBatch(List<MedCodeApiResponse> medCodeApiResponses) {
         return Mono.fromRunnable(() -> {
             List<MedCode> medCodes = medCodeApiResponses.stream()
