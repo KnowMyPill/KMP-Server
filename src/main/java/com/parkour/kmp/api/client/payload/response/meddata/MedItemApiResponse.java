@@ -16,7 +16,7 @@ public class MedItemApiResponse {
     private String seQesitm;
     private String depositMethodQesitm;
 
-    public MedItemApiResponse() {
+    protected MedItemApiResponse() {
     }
     public MedItemApiResponse(String itemName, String efcyQesitm, String useMethodQesitm, String atpnWarnQesitm, String atpnQesitm, String intrcQesitm, String seQesitm, String depositMethodQesitm) {
         this.itemName = itemName;
