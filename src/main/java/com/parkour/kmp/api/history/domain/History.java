@@ -19,7 +19,7 @@ public class History extends TimestampEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_token", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
