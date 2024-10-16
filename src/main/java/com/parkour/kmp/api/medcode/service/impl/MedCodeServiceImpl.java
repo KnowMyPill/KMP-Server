@@ -27,6 +27,9 @@ public class MedCodeServiceImpl implements MedCodeService {
 
     @Override
     public void fetchAndStoreMedCodes() throws InvalidRequestException {
+        logger.info("Delete all");
+        medCodeRepository.deleteAll();
+
         logger.info("Starting the process to fetch and save medication codes.");
 
         invoker.fetchAllMedCodeData()
