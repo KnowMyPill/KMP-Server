@@ -9,8 +9,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ public class DataLoader implements CommandLineRunner {
 
     private final MedCodeRepository medCodeRepository;
 
+    private static final int BATCH_SIZE = 50;
 
     @Override
     public void run(String... args) throws Exception {
@@ -25,12 +27,21 @@ public class DataLoader implements CommandLineRunner {
 
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(resource.getInputStream()))) {
             String[] nextLine;
+            List<MedCode> medCodes = new ArrayList<>();
             csvReader.readNext();
             while ((nextLine = csvReader.readNext()) != null) {
                 MedCode medcode = new MedCode(
                         nextLine[6], nextLine[9], nextLine[10], nextLine[11]
                 );
-                medCodeRepository.save(medcode);
+                medCodes.add(medcode);
+                if (medCodes.size() == BATCH_SIZE) {
+                    medCodeRepository.saveAll(medCodes);
+                    medCodes.clear();
+                }
+            }
+
+            if (!medCodes.isEmpty()) {
+                medCodeRepository.saveAll(medCodes);
             }
         }
     }
