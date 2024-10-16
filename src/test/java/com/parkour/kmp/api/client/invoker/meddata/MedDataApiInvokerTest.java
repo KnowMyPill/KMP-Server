@@ -47,6 +47,7 @@ class MedDataApiInvokerTest {
     }
 
 
+    /* Test commented out due to actual invocation for api
     @Test
     void testFetchMedicationDataSuccess() throws Exception {
         // Arrange
@@ -70,5 +71,5 @@ class MedDataApiInvokerTest {
         assertEquals("한미아스피린장용정100밀리그램", actualResponse.getItemName());
         System.out.println(actualResponse.getItemName());
     }
-
+    */
 }
