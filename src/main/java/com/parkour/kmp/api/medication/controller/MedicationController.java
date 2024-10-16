@@ -9,13 +9,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/medication")
+@RequestMapping("/medication")
 @RequiredArgsConstructor
+@RestController
 public class MedicationController {
     private final MedicationService medicationService;
 
     @GetMapping
     public ResponseEntity<MedicationResponse> searchMedicationByBarcode(@PathVariable String barcode) {
         return ResponseEntity.status(HttpStatus.OK).body(medicationService.findMedicationByBarcode(barcode));
+    }
+    
+    // TODO: FOR TEST
+    @GetMapping("/find")
+    public ResponseEntity<MedicationResponse> searchMedicationById(@RequestParam String itemSeq) {
+        return ResponseEntity.status(HttpStatus.OK).body(medicationService.findMedicationByItemSeq(itemSeq));
     }
 }
