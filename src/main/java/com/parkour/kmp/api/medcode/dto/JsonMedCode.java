@@ -18,6 +18,4 @@ public class JsonMedCode {
     @JsonProperty("제품코드(개정후)")
     private String productCode;
 
-    @JsonProperty("ATC코드")
-    private String atcCode;
 }
