@@ -20,7 +20,6 @@ public class MedicationServiceImpl implements MedicationService {
 
     @Override
     public MedicationResponse findMedicationByBarcode(String barcode) {
-        // TODO: 바코드 값을 의약품표준코드로 맵핑한다
 
         MedItemApiResponse medItemApiResponse = null;
         try {
@@ -30,7 +29,6 @@ public class MedicationServiceImpl implements MedicationService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // TODO: Save to history
         return new MedicationResponse(
                 medItemApiResponse.getItemName(),
                 medItemApiResponse.getEfcyQesitm(),
@@ -41,12 +39,6 @@ public class MedicationServiceImpl implements MedicationService {
                 medItemApiResponse.getSeQesitm(),
                 medItemApiResponse.getDepositMethodQesitm()
         );
-    }
-
-    @Override
-    public void saveMedication(MedicationResponse medicationResponse) {
-        // TODO: map MedicationResponse to Medication entity & then save to repository
-        // medicationRepository.save(medicationResponse);
     }
 
     @Override
