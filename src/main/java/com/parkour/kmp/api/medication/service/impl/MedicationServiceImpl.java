@@ -1,7 +1,7 @@
 package com.parkour.kmp.api.medication.service.impl;
 
 import com.parkour.kmp.api.client.domain.ApiInvokerCmd;
-import com.parkour.kmp.api.client.factory.ApiInvokerFactory;
+import com.parkour.kmp.api.client.invoker.MedDataApiInvoker;
 import com.parkour.kmp.api.medication.payload.response.MedicationResponse;
 import com.parkour.kmp.api.medication.repository.MedicationRepository;
 import com.parkour.kmp.api.medication.service.MedicationService;
@@ -21,7 +21,7 @@ public class MedicationServiceImpl implements MedicationService {
 
         MedItemApiResponse medItemApiResponse = null;
         try {
-            medItemApiResponse = apiInvokerFactory.getApiInvoker(ApiInvokerCmd.GET_MED_FROM_CODE).fetchMedicationData(barcode);
+            medItemApiResponse = invoker.fetchMedicationData(barcode);
         } catch (Exception e) {
             e.printStackTrace();
         }
