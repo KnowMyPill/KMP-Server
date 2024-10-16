@@ -1,2 +1,4 @@
-package com.parkour.kmp.api.user.service;public class UserControllerTest {
+package com.parkour.kmp.api.user.controller;
+
+public class UserControllerTest {
 }
