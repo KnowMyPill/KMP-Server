@@ -2,6 +2,8 @@ package com.parkour.kmp.api.medication.service.impl;
 
 import com.parkour.kmp.api.client.domain.ApiInvokerCmd;
 import com.parkour.kmp.api.client.invoker.MedDataApiInvoker;
+import com.parkour.kmp.api.medcode.domain.MedCode;
+import com.parkour.kmp.api.medcode.service.MedCodeService;
 import com.parkour.kmp.api.medication.payload.response.MedicationResponse;
 import com.parkour.kmp.api.medication.repository.MedicationRepository;
 import com.parkour.kmp.api.medication.service.MedicationService;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MedicationServiceImpl implements MedicationService {
     private final MedicationRepository medicationRepository;
+    private final MedCodeService medCodeService;
     private final MedDataApiInvoker invoker;
 
     @Override
@@ -21,12 +24,23 @@ public class MedicationServiceImpl implements MedicationService {
 
         MedItemApiResponse medItemApiResponse = null;
         try {
-            medItemApiResponse = invoker.fetchMedicationData(barcode);
+            String code = processCode(barcode);
+            MedCode medcode = medCodeService.findMedCodeByCodeStandard(code);
+            medItemApiResponse = invoker.fetchMedicationData(medcode.getItemSeq());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // MedicationApiResponse medicationApiResponse = apiInvoker.fetchMedicationData(medicationCode);
-        return new MedicationResponse("", "", "", "", "", "", "", "");
+        // TODO: Save to history
+        return new MedicationResponse(
+                medItemApiResponse.getItemName(),
+                medItemApiResponse.getEfcyQesitm(),
+                medItemApiResponse.getUseMethodQesitm(),
+                medItemApiResponse.getAtpnWarnQesitm(),
+                medItemApiResponse.getAtpnQesitm(),
+                medItemApiResponse.getIntrcQesitm(),
+                medItemApiResponse.getSeQesitm(),
+                medItemApiResponse.getDepositMethodQesitm()
+        );
     }
 
     @Override
@@ -48,5 +62,13 @@ public class MedicationServiceImpl implements MedicationService {
                 item.getSeQesitm(),
                 item.getDepositMethodQesitm()
         );
+    }
+
+    private String processCode(String barcode) {
+        barcode = barcode.trim();
+        if (barcode.startsWith("88")) {
+            return barcode.substring(1);
+        }
+        return barcode;
     }
 }
