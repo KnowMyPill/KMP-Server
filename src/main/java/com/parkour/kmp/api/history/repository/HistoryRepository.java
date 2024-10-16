@@ -13,6 +13,6 @@ import java.util.List;
 
 @Repository
 public interface HistoryRepository extends JpaRepository<History, Long>, PagingAndSortingRepository<History, Long> {
-    @Query("SELECT h FROM History h JOIN FETCH h.user u JOIN FETCH h.medication m WHERE u.id = :userId")
-    Page<History> findAllByUser(@Param("userId") Long userId, Pageable pageable);
+    @Query("SELECT h FROM History h JOIN FETCH h.user u JOIN FETCH h.medication m WHERE u.token = :token")
+    Page<History> findAllByUser(@Param("token") String token, Pageable pageable);
 }
