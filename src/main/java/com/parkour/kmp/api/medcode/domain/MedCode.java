@@ -23,15 +23,11 @@ public class MedCode extends TimestampEntity {
     @Column(name = "code_standard", nullable = false)
     private String codeStandard;
 
-    @Column(name = "code_product", nullable = false)
-    private String codeProduct;
-
     protected MedCode() {}
 
-    public MedCode(String itemSeq, String codeRepresentative, String codeStandard, String codeProduct) {
+    public MedCode(String itemSeq, String codeRepresentative, String codeStandard) {
         this.itemSeq = itemSeq;
         this.codeRepresentative = codeRepresentative;
         this.codeStandard = codeStandard;
-        this.codeProduct = codeProduct;
     }
 }

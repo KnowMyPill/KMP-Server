@@ -51,8 +51,7 @@ public class MedCodeServiceImpl implements MedCodeService {
                     .map(response -> new MedCode(
                             response.getItemSeq(),
                             response.getRepresentativeCode(),
-                            response.getStandardCode(),
-                            response.getProductCode()))
+                            response.getStandardCode()))
                     .collect(Collectors.toList());
 
             logger.info("Saving {} medCodes.", medCodes.size());
