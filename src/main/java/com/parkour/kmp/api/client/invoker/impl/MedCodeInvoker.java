@@ -7,13 +7,10 @@ import com.parkour.kmp.api.client.exception.InvalidRequestException;
 import com.parkour.kmp.api.client.invoker.MedCodeApiInvoker;
 import com.parkour.kmp.api.client.payload.response.medcode.MedCodeApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.util.List;
