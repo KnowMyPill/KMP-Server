@@ -24,6 +24,9 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Resource resource = new ClassPathResource("/data/MEDCODE_20231030.csv");
+        if (medCodeRepository.count() >= 0) {
+            return;
+        }
 
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(resource.getInputStream()))) {
             String[] nextLine;
@@ -31,7 +34,7 @@ public class DataLoader implements CommandLineRunner {
             csvReader.readNext();
             while ((nextLine = csvReader.readNext()) != null) {
                 MedCode medcode = new MedCode(
-                        nextLine[6], nextLine[9], nextLine[10], nextLine[11]
+                        nextLine[6], nextLine[9], nextLine[10]
                 );
                 medCodes.add(medcode);
                 if (medCodes.size() == BATCH_SIZE) {
