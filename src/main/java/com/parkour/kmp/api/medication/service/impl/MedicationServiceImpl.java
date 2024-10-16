@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MedicationServiceImpl implements MedicationService {
     private final MedicationRepository medicationRepository;
-    private final ApiInvokerFactory apiInvokerFactory;
+    private final MedDataApiInvoker invoker;
 
     @Override
     public MedicationResponse findMedicationByBarcode(String barcode) {
@@ -37,6 +37,16 @@ public class MedicationServiceImpl implements MedicationService {
 
     @Override
     public MedicationResponse findMedicationByItemSeq(String itemSeq) {
-        return null;
+        MedItemApiResponse item = invoker.fetchMedicationData(itemSeq);
+        return new MedicationResponse(
+                item.getItemName(),
+                item.getEfcyQesitm(),
+                item.getUseMethodQesitm(),
+                item.getAtpnWarnQesitm(),
+                item.getAtpnQesitm(),
+                item.getIntrcQesitm(),
+                item.getSeQesitm(),
+                item.getDepositMethodQesitm()
+        );
     }
 }
