@@ -17,25 +17,21 @@ public class MedCode extends TimestampEntity {
     @Column(name = "item_seq", nullable = false)
     private String itemSeq;
 
-    @Column(name = "representative_code", nullable = false)
-    private String representativeCode;
+    @Column(name = "code_representative", nullable = false)
+    private String codeRepresentative;
 
-    @Column(name = "standard_code", nullable = false)
-    private String standardCode;
+    @Column(name = "code_standard", nullable = false)
+    private String codeStandard;
 
-    @Column(name = "product_code", nullable = false)
-    private String productCode;
-
-    @Column(name = "atc_code", nullable = false)
-    private String atcCode;
+    @Column(name = "code_product", nullable = false)
+    private String codeProduct;
 
     protected MedCode() {}
 
-    public MedCode(String itemSeq, String representativeCode, String standardCode, String productCode, String atcCode) {
+    public MedCode(String itemSeq, String codeRepresentative, String codeStandard, String codeProduct) {
         this.itemSeq = itemSeq;
-        this.representativeCode = representativeCode;
-        this.standardCode = standardCode;
-        this.productCode = productCode;
-        this.atcCode = atcCode;
+        this.codeRepresentative = codeRepresentative;
+        this.codeStandard = codeStandard;
+        this.codeProduct = codeProduct;
     }
 }
