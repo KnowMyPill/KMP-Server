@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "histories",
         indexes = {
-            @Index(name = "idx_user_id", columnList = "user_id"),
+            @Index(name = "idx_user_token", columnList = "user_token"),
             @Index(name = "idx_medication_id", columnList = "medication_id")
         }
 )
