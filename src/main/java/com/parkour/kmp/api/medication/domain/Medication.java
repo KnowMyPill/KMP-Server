@@ -1,10 +1,13 @@
 package com.parkour.kmp.api.medication.domain;
 
 import com.parkour.kmp.api.common.domain.TimestampEntity;
+import com.parkour.kmp.api.history.domain.History;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -47,6 +50,9 @@ public class Medication extends TimestampEntity {
     // 설명 7. 보관법: 이 약은 어떻게 보관해야 합니까?
     @Column(name = "description_manage_method")
     private String descManageMethod;
+
+    @OneToMany(mappedBy = "medication", cascade = CascadeType.ALL)
+    private List<History> histories = new ArrayList<>();
 
     protected Medication() {}
 
