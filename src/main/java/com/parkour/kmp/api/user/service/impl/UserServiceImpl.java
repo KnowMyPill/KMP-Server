@@ -24,7 +24,9 @@ public class UserServiceImpl implements UserService {
         User user = findUserByToken(token);
         userRepository.delete(user);
     }
-    private User findUserByToken(String token) {
+
+    @Override
+    public User findUserByToken(String token) {
         return userRepository.findByToken(token)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
     }

@@ -6,4 +6,5 @@ import com.parkour.kmp.api.user.payload.request.UserSignUpRequest;
 public interface UserService {
     User signUp(UserSignUpRequest signUpRequest);
     void deleteUser(String token);
+    User findUserByToken(String token);
 }
