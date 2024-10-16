@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MedCodeRepository extends JpaRepository<MedCode, Long> {
     void deleteAll();
+    Optional<MedCode> findByItemSeq(String itemSeq);
+
 }

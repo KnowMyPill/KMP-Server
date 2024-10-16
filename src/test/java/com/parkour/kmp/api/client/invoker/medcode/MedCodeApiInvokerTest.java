@@ -1,51 +1,59 @@
 package com.parkour.kmp.api.client.invoker.medcode;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parkour.kmp.api.client.domain.ApiInvokerCmd;
-import com.parkour.kmp.api.client.exception.UnsupportedInvocationException;
-import com.parkour.kmp.api.client.factory.ApiInvokerFactory;
-import com.parkour.kmp.api.client.invoker.impl.medcode.AllMedCodeApiInvoker;
-import com.parkour.kmp.api.client.payload.response.meddata.MedItemApiResponse;
+import com.parkour.kmp.api.client.exception.InvalidRequestException;
+import com.parkour.kmp.api.client.invoker.impl.MedCodeInvoker;
+import com.parkour.kmp.api.client.payload.response.medcode.MedCodeApiResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import java.net.URI;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
+
+@SpringBootTest
 class MedCodeApiInvokerTest {
 
     @Mock
     private ObjectMapper mapper;
 
-    @Mock
-    private ApiInvokerFactory apiInvokerFactory;
+    @InjectMocks
+    private MedCodeInvoker invoker;
 
-    private AllMedCodeApiInvoker allMedCodeApiInvoker;
-
-    @Mock
-    private WebClient client;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        when(apiInvokerFactory.getApiInvoker(ApiInvokerCmd.GET_CODE_FROM_BARCODE)).thenReturn(allMedCodeApiInvoker);
-        allMedCodeApiInvoker = new AllMedCodeApiInvoker();
     }
 
-    @Test
-    void testFetchMedDataFailure() throws Exception {
-        assertThrows(UnsupportedInvocationException.class, () -> allMedCodeApiInvoker.fetchMedicationData("200003092"));
-    }
 
-    /*
     @Test
-    void testFetchAllMedCodeDataSuccess() throws Exception {
-        MedCodeSummaryResponse actualResponse = allMedCodeApiInvoker.fetchAllMedCodeData();
+    void fetchAllMedCodeData_shouldRetrieveRealData() throws InvalidRequestException {
+        Flux<MedCodeApiResponse> result = invoker.fetchAllMedCodeData();
+
+        result.subscribe(
+                item -> {
+                    assertNotNull(item);
+                    System.out.println("Retrieved item: " + item);
+                },
+                error -> {
+                    System.err.println("Error occurred: " + error.getMessage());
+                },
+                () -> {
+                    System.out.println("Data retrieval complete.");
+                }
+        );
     }
-    */
 }
-

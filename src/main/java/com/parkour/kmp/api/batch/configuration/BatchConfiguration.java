@@ -13,13 +13,11 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
+import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
-import org.springframework.batch.item.json.JacksonJsonObjectReader;
-import org.springframework.batch.item.json.JsonItemReader;
-import org.springframework.batch.item.json.builder.JsonItemReaderBuilder;
+import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -35,23 +33,32 @@ public class BatchConfiguration {
     private final DataSource dataSource;
 
     @Bean
-    public JsonItemReader<MedCodeApiResponse> reader() {
-        return new JsonItemReaderBuilder<MedCodeApiResponse>()
-                .name("jsonMedCodeReader")
-                .resource(new ClassPathResource("sample-data.json"))
-                .jsonObjectReader(new JacksonJsonObjectReader<>(MedCodeApiResponse.class))
-                .build();
-    }
-
-    @Bean
     public MedCodeProcessor processor() {
         return new MedCodeProcessor();
     }
 
     @Bean
+    public JdbcCursorItemReader<MedCodeApiResponse> reader() {
+        return new JdbcCursorItemReaderBuilder<MedCodeApiResponse>()
+                .name("medCodeReader")
+                .sql("SELECT item_seq, code_representative, code_standard, code_product FROM med_codes")
+                .dataSource(dataSource)
+                .rowMapper((rs, rowNum) -> {
+                    MedCodeApiResponse medCode = new MedCodeApiResponse(
+                            rs.getString("item_seq"),
+                            rs.getString("code_representative"),
+                            rs.getString("code_standard"),
+                            rs.getString("code_product")
+                            );
+                    return medCode;
+                })
+                .build();
+    }
+
+    @Bean
     public JdbcBatchItemWriter<MedCode> writer(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<MedCode>()
-                .sql("INSERT INTO med_codes (item_seq, representative_code, standard_code, product_code, atc_code) VALUES (:itemSeq, :representativeCode, :standardCode, :productCode, :atcCode)")
+                .sql("INSERT INTO med_codes (item_seq, code_representative, code_standard, code_product) VALUES (:itemSeq, :codeRepresentative, :codeStandard, :codeProduct)")
                 .dataSource(dataSource)
                 .beanMapped()
                 .build();
