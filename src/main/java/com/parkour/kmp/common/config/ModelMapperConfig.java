@@ -1,4 +1,4 @@
-package com.parkour.kmp.common.util.mapper;
+package com.parkour.kmp.common.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration.AccessLevel;

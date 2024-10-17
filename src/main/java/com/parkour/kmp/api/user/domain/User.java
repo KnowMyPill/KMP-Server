@@ -1,6 +1,6 @@
 package com.parkour.kmp.api.user.domain;
 
-import com.parkour.kmp.api.common.domain.TimestampEntity;
+import com.parkour.kmp.common.domain.TimestampEntity;
 import com.parkour.kmp.api.history.domain.History;
 import jakarta.persistence.*;
 import lombok.Getter;

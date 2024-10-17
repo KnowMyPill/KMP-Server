@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
-// @EnableBatchProcessing
 @SpringBootApplication
-@EnableJpaAuditing
 public class KmpApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KmpApplication.class, args);
