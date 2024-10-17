@@ -5,6 +5,7 @@ import com.parkour.kmp.api.history.payload.request.HistoryStoreRequest;
 import com.parkour.kmp.api.history.repository.HistoryRepository;
 import com.parkour.kmp.api.history.service.HistoryService;
 import com.parkour.kmp.api.medication.domain.Medication;
+import com.parkour.kmp.api.medication.payload.response.MedicationResponse;
 import com.parkour.kmp.api.medication.service.MedicationService;
 import com.parkour.kmp.api.user.domain.User;
 import com.parkour.kmp.api.user.service.UserService;
@@ -34,9 +35,16 @@ public class HistoryServiceImpl implements HistoryService {
         try {
             user = userService.findUserByToken(request.token());
         } catch (Exception e) {
+            System.out.println(e);
             throw new IllegalArgumentException("User not found with given token.");
         }
-        Medication medication = mapper.map(medicationService.findMedicationByItemSeq(request.itemSeq()), Medication.class);
+        MedicationResponse response = medicationService.findMedicationByItemSeq(request.itemSeq());;
+        if (response == null) {
+            throw new IllegalArgumentException("Medication not found.");
+        }
+        System.out.println(response);
+        Medication medication = mapper.map(response, Medication.class);
+
         historyRepository.save(new History(user, medication));
     }
 
