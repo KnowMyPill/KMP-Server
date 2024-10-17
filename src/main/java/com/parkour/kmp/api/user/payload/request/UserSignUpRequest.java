@@ -1,3 +1,5 @@
 package com.parkour.kmp.api.user.payload.request;
 
-public record UserSignUpRequest(String token) {}
+import jakarta.validation.constraints.NotNull;
+
+public record UserSignUpRequest(@NotNull String token) {}
