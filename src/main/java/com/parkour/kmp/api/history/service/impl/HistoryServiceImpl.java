@@ -30,7 +30,12 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     @Transactional
     public void storeHistory(HistoryStoreRequest request) {
-        User user = userService.findUserByToken(request.token());
+        User user = null;
+        try {
+            user = userService.findUserByToken(request.token());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("User not found with given token.");
+        }
         Medication medication = mapper.map(medicationService.findMedicationByItemSeq(request.itemSeq()), Medication.class);
         historyRepository.save(new History(user, medication));
     }

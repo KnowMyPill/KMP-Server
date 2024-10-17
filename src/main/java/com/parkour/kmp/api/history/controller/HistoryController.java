@@ -32,8 +32,13 @@ public class HistoryController {
     }
 
     @PostMapping("/store")
-    public ResponseEntity<Void> storeHistory(@Validated @RequestBody HistoryStoreRequest request) {
-        historyService.storeHistory(request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> storeHistory( @RequestBody HistoryStoreRequest request) {
+        try {
+            historyService.storeHistory(request);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 }
