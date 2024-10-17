@@ -28,6 +28,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByToken(String token) {
         return userRepository.findByToken(token)
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 }
