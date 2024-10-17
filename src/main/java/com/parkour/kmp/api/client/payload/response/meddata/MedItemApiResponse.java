@@ -7,6 +7,7 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MedItemApiResponse {
 
+    private String itemSeq;
     private String itemName;
     private String efcyQesitm;
     private String useMethodQesitm;
@@ -16,9 +17,10 @@ public class MedItemApiResponse {
     private String seQesitm;
     private String depositMethodQesitm;
 
-    public MedItemApiResponse() {
+    protected MedItemApiResponse() {
     }
-    public MedItemApiResponse(String itemName, String efcyQesitm, String useMethodQesitm, String atpnWarnQesitm, String atpnQesitm, String intrcQesitm, String seQesitm, String depositMethodQesitm) {
+    public MedItemApiResponse(String itemSeq, String itemName, String efcyQesitm, String useMethodQesitm, String atpnWarnQesitm, String atpnQesitm, String intrcQesitm, String seQesitm, String depositMethodQesitm) {
+        this.itemSeq = itemSeq;
         this.itemName = itemName;
         this.efcyQesitm = efcyQesitm;
         this.useMethodQesitm = useMethodQesitm;

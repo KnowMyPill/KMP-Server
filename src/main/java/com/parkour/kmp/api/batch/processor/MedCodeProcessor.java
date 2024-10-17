@@ -20,8 +20,7 @@ public class MedCodeProcessor implements ItemProcessor<MedCodeApiResponse, MedCo
             return new MedCode(
                     item.getItemSeq(),
                     item.getRepresentativeCode(),
-                    item.getStandardCode(),
-                    item.getProductCode()
+                    item.getStandardCode()
             );
         } catch (Exception e) {
             logger.error("Error processing item: {}", item, e);

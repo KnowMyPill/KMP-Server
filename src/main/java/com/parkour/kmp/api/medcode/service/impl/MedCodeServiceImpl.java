@@ -27,6 +27,9 @@ public class MedCodeServiceImpl implements MedCodeService {
 
     @Override
     public void fetchAndStoreMedCodes() throws InvalidRequestException {
+        logger.info("Delete all");
+        medCodeRepository.deleteAll();
+
         logger.info("Starting the process to fetch and save medication codes.");
 
         invoker.fetchAllMedCodeData()
@@ -39,14 +42,19 @@ public class MedCodeServiceImpl implements MedCodeService {
         logger.info("Completed the process to fetch and save medication codes.");
     }
 
+    @Override
+    public MedCode findMedCodeByCodeStandard(String codeStandard) throws InvalidRequestException {
+        return medCodeRepository.findByCodeStandard(codeStandard)
+                .orElseThrow(() -> new InvalidRequestException("MedCode not found for codeStandard: " + codeStandard));
+    }
+
     private Mono<Void> saveMedCodesBatch(List<MedCodeApiResponse> medCodeApiResponses) {
         return Mono.fromRunnable(() -> {
             List<MedCode> medCodes = medCodeApiResponses.stream()
                     .map(response -> new MedCode(
                             response.getItemSeq(),
                             response.getRepresentativeCode(),
-                            response.getStandardCode(),
-                            response.getProductCode()))
+                            response.getStandardCode()))
                     .collect(Collectors.toList());
 
             logger.info("Saving {} medCodes.", medCodes.size());
