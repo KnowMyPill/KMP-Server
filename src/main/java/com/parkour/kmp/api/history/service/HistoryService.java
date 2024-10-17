@@ -1,10 +1,12 @@
 package com.parkour.kmp.api.history.service;
 
-import com.parkour.kmp.api.history.domain.History;
+import com.parkour.kmp.api.client.exception.InvalidRequestException;
 import com.parkour.kmp.api.history.payload.request.HistoryStoreRequest;
-import org.springframework.data.domain.Page;
+import com.parkour.kmp.api.history.payload.response.HistoryResponse;
+
+import java.util.List;
 
 public interface HistoryService {
-    void storeHistory(HistoryStoreRequest request);
-    Page<History> findHistoriesByUser(String token, int page);
+    void storeHistory(HistoryStoreRequest request) throws InvalidRequestException;
+    List<HistoryResponse> findHistoriesByUser(String token, int page);
 }

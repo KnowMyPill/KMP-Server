@@ -1,7 +1,9 @@
 package com.parkour.kmp.api.history.service.impl;
 
+import com.parkour.kmp.api.client.exception.InvalidRequestException;
 import com.parkour.kmp.api.history.domain.History;
 import com.parkour.kmp.api.history.payload.request.HistoryStoreRequest;
+import com.parkour.kmp.api.history.payload.response.HistoryResponse;
 import com.parkour.kmp.api.history.repository.HistoryRepository;
 import com.parkour.kmp.api.history.service.HistoryService;
 import com.parkour.kmp.api.medication.domain.Medication;
@@ -17,6 +19,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.ArrayList;
+
 @Service
 @RequiredArgsConstructor
 public class HistoryServiceImpl implements HistoryService {
@@ -30,30 +36,43 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     @Transactional
-    public void storeHistory(HistoryStoreRequest request) {
-        User user = null;
-        try {
-            user = userService.findUserByToken(request.token());
-        } catch (Exception e) {
-            System.out.println(e);
-            throw new IllegalArgumentException("User not found with given token.");
-        }
-        MedicationResponse response = medicationService.findMedicationByItemSeq(request.itemSeq());;
+    public void storeHistory(HistoryStoreRequest request) throws InvalidRequestException {
+        User user = userService.findUserByToken(request.token());
+        MedicationResponse response = medicationService.findMedicationByItemSeq(request.itemSeq());
         if (response == null) {
             throw new IllegalArgumentException("Medication not found.");
         }
-        System.out.println(response);
-        Medication medication = mapper.map(response, Medication.class);
 
-        historyRepository.save(new History(user, medication));
+        LocalDate expiryDate = processDate(request.date());
+
+        Medication medication = medicationService.existsByItemSeq(request.itemSeq()) ?
+                medicationService.retrieveMedicationByItemSeq(request.itemSeq()) :
+                saveNewMedication(response);
+
+        historyRepository.save(new History(user, medication, expiryDate));
     }
+
 
     @Override
     @Transactional(readOnly = true)
-    public Page<History> findHistoriesByUser(String token, int page) {
+    public List<HistoryResponse> findHistoriesByUser(String token, int page) {
         Pageable pageable = PageRequest.of(page, DEFAULT_PAGE_SIZE);
-        return historyRepository.findAllByUser(token, pageable);
+        Page<History> histories = historyRepository.findAllByUser(token, pageable);
+
+        List<HistoryResponse> responses = new ArrayList<>();
+        for (History history : histories) {
+            responses.add(mapper.map(history, HistoryResponse.class));
+        }
+        return responses;
     }
 
+    private LocalDate processDate(String date) {
+        return LocalDate.parse(date);
+    }
+
+    private Medication saveNewMedication(MedicationResponse response) {
+        Medication medication = mapper.map(response, Medication.class);
+        return medicationService.saveMedication(medication);
+    }
 
 }
