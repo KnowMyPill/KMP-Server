@@ -39,7 +39,7 @@ public class HistoryControllerTest {
     @DisplayName("유효하지 않은 요청에 대해 히스토리 생성 시도")
     public void createHistory_shouldCauseError() throws Exception {
 
-        HistoryStoreRequest request = new HistoryStoreRequest("invalid-token", "1234");
+        HistoryStoreRequest request = new HistoryStoreRequest("invalid-token", "1234", "2024-10-28");
 
         doThrow(new IllegalArgumentException("User not found with given token."))
                 .when(historyService).storeHistory(request);
@@ -55,7 +55,7 @@ public class HistoryControllerTest {
     @DisplayName("유효한 요청에 대해 히스토리 생성 시도")
     public void createHistory_shouldSucceed() throws Exception {
 
-        HistoryStoreRequest request = new HistoryStoreRequest("valid-token", "1234");
+        HistoryStoreRequest request = new HistoryStoreRequest("valid-token", "1234", "2024-10-28");
 
         doNothing().when(historyService).storeHistory(request);
 

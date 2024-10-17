@@ -38,7 +38,7 @@ public class HistoryServiceImplTest {
     @Test
     @DisplayName("존재하지 않는 유저에 대한 히스토리 생성에 실패한다")
     public void storeHistory_shouldFailWithInvalidUser() {
-        HistoryStoreRequest request = new HistoryStoreRequest("invalid-token", "200003092");
+        HistoryStoreRequest request = new HistoryStoreRequest("invalid-token", "200003092", "2024-10-28");
         assertThrows(IllegalArgumentException.class,
                 ()->historyService.storeHistory(request));
     }
@@ -49,7 +49,7 @@ public class HistoryServiceImplTest {
         User user = new User("1234");
         userRepository.save(user);
 
-        HistoryStoreRequest request = new HistoryStoreRequest("1234", "invalid-item");
+        HistoryStoreRequest request = new HistoryStoreRequest("1234", "invalid-item", "2024-10-28");
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
                 ()->historyService.storeHistory(request));
         assert(thrown.getMessage().startsWith("Med"));
