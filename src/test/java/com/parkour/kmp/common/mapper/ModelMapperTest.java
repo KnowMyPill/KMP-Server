@@ -3,12 +3,20 @@ import com.parkour.kmp.api.medication.domain.Medication;
 import com.parkour.kmp.api.medication.payload.response.MedicationResponse;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.config.Configuration.AccessLevel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ModelMapperTest {
 
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
+
+    public ModelMapperTest() {
+        modelMapper = new ModelMapper();
+        modelMapper.getConfiguration()
+                .setFieldAccessLevel(AccessLevel.PRIVATE)
+                .setFieldMatchingEnabled(true);
+    }
 
     @Test
     public void testMappingMedicationResponseToMedication() {
