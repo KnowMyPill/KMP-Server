@@ -5,6 +5,8 @@ import com.parkour.kmp.api.medication.domain.Medication;
 import com.parkour.kmp.api.user.domain.User;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "histories",
         indexes = {
@@ -26,10 +28,14 @@ public class History extends TimestampEntity {
     @JoinColumn(name = "medication_id", nullable = false)
     private Medication medication;
 
+    @Column(name = "expiry_date")
+    private LocalDate expiryDate;
+
     protected History() {}
 
-    public History(User user, Medication medication) {
+    public History(User user, Medication medication, LocalDate expiryDate) {
         this.user = user;
         this.medication = medication;
+        this.expiryDate = expiryDate;
     }
 }
