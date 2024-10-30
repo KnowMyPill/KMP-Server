@@ -1,2 +1,4 @@
-package com.parkour.kmp.api.notification.payload.request;public interface MobileRequest {
+package com.parkour.kmp.api.notification.payload.request;
+
+public interface MobileRequest {
 }
