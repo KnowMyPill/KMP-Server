@@ -4,9 +4,10 @@ import com.parkour.kmp.api.common.payload.ApiResponse;
 import lombok.Builder;
 
 @Builder
-public class ApiResponseDto implements ApiResponse {
-    boolean success;
-    String message;
+public class GenericApiResponse<T> implements ApiResponse {
+    private boolean success;
+    private String message;
+    private T data;
 
     @Override
     public boolean isSuccess() {

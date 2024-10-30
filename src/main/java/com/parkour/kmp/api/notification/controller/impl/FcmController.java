@@ -1,14 +1,12 @@
 package com.parkour.kmp.api.notification.controller.impl;
 
 import com.parkour.kmp.api.common.payload.ApiResponse;
-import com.parkour.kmp.api.common.payload.impl.ApiResponseDto;
+import com.parkour.kmp.api.common.payload.impl.GenericApiResponse;
 import com.parkour.kmp.api.notification.controller.NotificationController;
 import com.parkour.kmp.api.notification.payload.request.MobileRequest;
-import com.parkour.kmp.api.notification.payload.request.impl.FcmMobileRequest;
 import com.parkour.kmp.api.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +28,7 @@ public class FcmController implements NotificationController {
 
         log.debug("[KMP Log] Sending push message. ");
         int result = service.sendMessage(request);
-        ApiResponse response = ApiResponseDto.builder()
+        ApiResponse response = GenericApiResponse.builder()
                 .success(result == 1)
                 .message("Message is successfully sent.")
                 .build();
