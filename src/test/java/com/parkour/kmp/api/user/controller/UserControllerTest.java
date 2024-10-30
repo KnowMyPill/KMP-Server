@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parkour.kmp.api.user.controller.impl.UserController;
 import com.parkour.kmp.api.user.domain.User;
 import com.parkour.kmp.api.user.payload.request.UserSignUpRequest;
 import com.parkour.kmp.api.user.repository.UserRepository;

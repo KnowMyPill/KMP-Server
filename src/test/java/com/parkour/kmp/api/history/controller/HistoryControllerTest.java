@@ -1,13 +1,10 @@
 package com.parkour.kmp.api.history.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parkour.kmp.api.history.domain.History;
+import com.parkour.kmp.api.history.controller.impl.HistoryController;
 import com.parkour.kmp.api.history.payload.request.HistoryStoreRequest;
-import com.parkour.kmp.api.history.repository.HistoryRepository;
 import com.parkour.kmp.api.history.service.HistoryService;
-import com.parkour.kmp.api.medication.domain.Medication;
 import com.parkour.kmp.api.medication.repository.MedicationRepository;
-import com.parkour.kmp.api.user.domain.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

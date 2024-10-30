@@ -5,7 +5,9 @@ import com.parkour.kmp.api.notification.payload.request.MobileRequest;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
+import org.springframework.web.bind.annotation.PostMapping;
 
-public interface NotificationController {
+public interface NotificationApi {
+    @PostMapping("/send")
     ResponseEntity<ApiResponse> pushMessage(MobileRequest request) throws IOException;
 }

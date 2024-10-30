@@ -19,12 +19,11 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/fcm")
-public class FcmApi implements NotificationApi {
+public class FcmController implements NotificationApi {
 
     private final NotificationService service;
 
     @Override
-    @PostMapping("/send")
     public ResponseEntity<ApiResponse> pushMessage(MobileRequest request) throws IOException {
 
         log.debug("[KMP Log] Sending push message. ");
