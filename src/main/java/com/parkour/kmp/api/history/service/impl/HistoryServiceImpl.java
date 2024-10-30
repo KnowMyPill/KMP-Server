@@ -36,7 +36,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     @Transactional
-    public void storeHistory(HistoryStoreRequest request) throws InvalidRequestException {
+    public int storeHistory(HistoryStoreRequest request) throws InvalidRequestException {
         User user = userService.findUserByToken(request.token());
         MedicationResponse response = medicationService.findMedicationByItemSeq(request.itemSeq());
         if (response == null) {
@@ -50,6 +50,7 @@ public class HistoryServiceImpl implements HistoryService {
                 saveNewMedication(response);
 
         historyRepository.save(new History(user, medication, expiryDate));
+        return 1;
     }
 
 

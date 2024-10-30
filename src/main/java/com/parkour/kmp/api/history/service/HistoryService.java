@@ -7,6 +7,6 @@ import com.parkour.kmp.api.history.payload.response.HistoryResponse;
 import java.util.List;
 
 public interface HistoryService {
-    void storeHistory(HistoryStoreRequest request) throws InvalidRequestException;
+    int storeHistory(HistoryStoreRequest request) throws InvalidRequestException;
     List<HistoryResponse> findHistoriesByUser(String token, int page);
 }
