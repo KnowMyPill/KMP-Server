@@ -24,7 +24,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Resource resource = new ClassPathResource("/data/MEDCODE_20231030.csv");
-        if (medCodeRepository.count() >= 0) {
+        if (medCodeRepository.count() > 0) {
             return;
         }
 
