@@ -1,4 +1,4 @@
-package com.parkour.kmp.common.domain;
+package com.parkour.kmp.api.common.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

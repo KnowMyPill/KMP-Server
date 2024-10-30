@@ -1,7 +1,5 @@
-package com.parkour.kmp.common.config;
+package com.parkour.kmp.api.common.config;
 
-import com.parkour.kmp.api.medication.domain.Medication;
-import com.parkour.kmp.api.medication.payload.response.MedicationResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration.AccessLevel;
 import org.modelmapper.record.RecordModule;
