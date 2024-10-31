@@ -1,10 +1,9 @@
-package com.parkour.kmp.api.notification.controller.impl;
+package com.parkour.kmp.api.fcm.controller.impl;
 
 import com.parkour.kmp.api.common.payload.ApiResponse;
 import com.parkour.kmp.api.common.util.ResponseBuilder;
-import com.parkour.kmp.api.notification.controller.NotificationApi;
 import com.parkour.kmp.api.notification.payload.request.MobileRequest;
-import com.parkour.kmp.api.fcm.service.NotificationService;
+import com.parkour.kmp.api.fcm.service.FcmService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

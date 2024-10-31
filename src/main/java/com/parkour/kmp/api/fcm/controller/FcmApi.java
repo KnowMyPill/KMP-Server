@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import java.io.IOException;
 import org.springframework.web.bind.annotation.PostMapping;
 
-public interface NotificationApi {
+public interface FcmApi {
     @PostMapping("/send")
     ResponseEntity<ApiResponse> pushMessage(MobileRequest request) throws IOException;
 }
