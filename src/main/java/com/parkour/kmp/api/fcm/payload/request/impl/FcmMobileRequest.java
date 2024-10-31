@@ -1,6 +1,6 @@
-package com.parkour.kmp.api.notification.payload.request.impl;
+package com.parkour.kmp.api.fcm.payload.request.impl;
 
-import com.parkour.kmp.api.notification.payload.request.MobileRequest;
+import com.parkour.kmp.api.fcm.payload.request.MobileRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

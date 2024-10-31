@@ -1,4 +1,4 @@
-package com.parkour.kmp.api.notification.configuration;
+package com.parkour.kmp.api.fcm.configuration;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;

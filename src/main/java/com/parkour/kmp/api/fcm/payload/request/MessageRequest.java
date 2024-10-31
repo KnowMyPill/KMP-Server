@@ -1,4 +1,4 @@
-package com.parkour.kmp.api.notification.payload.request;
+package com.parkour.kmp.api.fcm.payload.request;
 
 public interface MessageRequest {
     boolean isValidateOnly();

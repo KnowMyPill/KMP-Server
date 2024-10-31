@@ -1,7 +1,7 @@
-package com.parkour.kmp.api.notification.controller;
+package com.parkour.kmp.api.fcm.controller;
 
 import com.parkour.kmp.api.common.payload.ApiResponse;
-import com.parkour.kmp.api.notification.payload.request.MobileRequest;
+import com.parkour.kmp.api.fcm.payload.request.MobileRequest;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
