@@ -1,11 +1,11 @@
-package com.parkour.kmp.api.notification.service.impl;
+package com.parkour.kmp.api.fcm.service.impl;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
+import com.parkour.kmp.api.fcm.service.NotificationService;
 import com.parkour.kmp.api.notification.payload.request.MobileRequest;
 import com.parkour.kmp.api.notification.payload.request.impl.FcmMobileRequest;
-import com.parkour.kmp.api.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
