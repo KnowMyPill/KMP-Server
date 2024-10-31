@@ -17,15 +17,20 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/fcm")
-public class FcmController implements NotificationApi {
+public class FcmController implements com.parkour.kmp.api.notification.controller.FcmApi {
 
-    private final NotificationService service;
+    private final FcmService service;
 
     @Override
     public ResponseEntity<ApiResponse> pushMessage(MobileRequest request) throws IOException {
 
         log.debug("[KMP Log] Sending push message. ");
-        int result = service.sendMessage(request);
+        int result = 0;
+        try {
+            result = service.sendMessage(request);
+        } catch (Exception e) {
+            log.error("[KMP Log] Error sending push message. ", e);
+        }
         return ResponseBuilder.buildResponse(result, result == 1, "Push message sent successfully.", HttpStatus.CREATED);
     }
 }
