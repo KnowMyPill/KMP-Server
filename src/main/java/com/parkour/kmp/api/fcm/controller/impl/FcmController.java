@@ -2,6 +2,7 @@ package com.parkour.kmp.api.fcm.controller.impl;
 
 import com.parkour.kmp.api.common.payload.ApiResponse;
 import com.parkour.kmp.api.common.util.ResponseBuilder;
+import com.parkour.kmp.api.fcm.controller.FcmApi;
 import com.parkour.kmp.api.fcm.payload.request.MobileRequest;
 import com.parkour.kmp.api.fcm.service.FcmService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/fcm")
-public class FcmController implements com.parkour.kmp.api.notification.controller.FcmApi {
+public class FcmController implements FcmApi {
 
     private final FcmService service;
 
